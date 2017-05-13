@@ -238,3 +238,65 @@ hr {
         max-width: 940px;
     }
 }
+
+li.glyphicon {
+    display: block;
+    line-height: 2;
+    margin-right: 2px;
+    margin-left: -1.3em;
+
+}
+
+.glyphicon.verde{
+    color: #88c671;
+}
+
+.centrado i.support{
+    font-size: 3em;
+}
+
+.glyphicon a {
+    font-family: 'Roboto', sans-serif;
+}
+
+.centrado {
+    text-align: center;
+}
+
+.circulo {
+    display: inline-block;
+    width: 120px;
+    height: 120px;
+    /*background: rgba(255, 255, 255, 0.2);*/
+    margin: 0 5px;
+    position: relative;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    border-radius: 50%;
+    background-color: #333;
+    margin-top: 10px;
+}
+
+.circulo:hover {
+     background-color: #99115D;
+    -webkit-transition: background-color 1000ms linear;
+    -ms-transition: background-color 1000ms linear;
+    transition: background-color 1000ms linear;
+}
+
+.logo {
+    vertical-align: center;
+    color: #fff;
+    margin-top: 30%;
+}
+
+.titulo {
+    background-color: #999;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.sin_decoracion a {
+    text-decoration:none;   
+}
