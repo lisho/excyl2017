@@ -184,6 +184,7 @@ class ConvocadosController extends AppController
         //$this->set('_serialize', ['convocado']);
     }
 
+
     public function compruebaCandidatura($id = null, $puesto = null)
     {
         $this->loadModel('Candidaturas');
@@ -217,28 +218,71 @@ class ConvocadosController extends AppController
 
     public function listados()
     {
-        /*
-        $this->paginate = [
-            'contain' => ['Candidaturas.Puestos'],
-            'url' => [
-                'scape' => true      
-            ]
-        ];
-
-       
-
-        $convocados = $this->paginate($this->Convocados);
-        */
-
+        $lista_expedientes=[];
         $convocados = $this->Convocados->find('all')
                         -> contain(['Candidaturas.Puestos'])
-                        //-> order(['apellidos'=> 'ASC'])
-                        //->toArray()
                         ;
-               
-//debug(json_encode($convocados));exit();
+        $lista_convocados = $this->Convocados   ->find()
+                                                ->extract('dni')
+                                                ->toArray();
+        $dni_nomina = $this->dniNomina();
+        $dni_suspensiones = $this->dniSuspensiones();
+        $expedientes = $this->listaExpedientes();
 
-        $this->set(compact('convocados'));
+        foreach ($expedientes as $e) {
+            if (in_array($e['dni'], $lista_convocados)){
+                $lista_expedientes[$e['dni']]=$e['expediente'];
+            }
+        }
+
+//debug($convocados);               
+//debug(json_encode($convocados));
+//exit();
+
+        $this->set(compact('convocados','dni_nomina','dni_suspensiones','lista_expedientes'));
         $this->set('_serialize', ['convocados']);
+    }
+
+    public function contrastarNomina($dni=null)
+    {
+
+        $this->loadModel("Nominas");
+        $contraste = $this->nominas->find()
+                                    -> where(['dni' => $dni])
+                                    -> first();
+        if ($contraste) {
+            return TRUE;
+        } else { return FALSE;}
+        
+    }
+
+    public function dniNomina()
+    {
+        $this->loadModel("Nominas");
+        $lista = $this->Nominas->find()
+                                ->combine('dni','CLASIFICACION');
+        return $lista->toArray();
+
+    }
+
+    public function dniSuspensiones()
+    {
+        $this->loadModel("Suspensions");
+        $lista = $this->Suspensions->find()
+                                //->extract('dni')
+                                -> combine('dni','CLASIFICACION');
+        return $lista->toArray();
+
+    }
+
+    public function listaExpedientes()
+    {
+        $this->loadModel("Participantes");
+        $expedientes = $this->Participantes->find()
+                                -> contain(['Expedientes'])
+                                //-> extract('dni')
+                                ;
+        //debug($expedientes);exit();
+        return $expedientes->toArray();
     }
 }

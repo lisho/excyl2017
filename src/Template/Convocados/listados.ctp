@@ -13,6 +13,7 @@
         </div>
     </header>
 <div class="btn-group" role="group" aria-label="...">
+<button id="btntodos" type="button" class="btn btn-warning btnselect">Todos</button>
   <button id="btn1" type="button" class="btn btn-default btnselect">Oficial de Obras</button>
   <button id="btn2" type="button" class="btn btn-default btnselect">Oficial de Jardines</button>
   <button id="btn3" type="button" class="btn btn-default btnselect">Peón de Obras</button>
@@ -20,15 +21,17 @@
   <button id="btn5" type="button" class="btn btn-default btnselect">Conserje</button>
   <button id="btn6" type="button" class="btn btn-default btnselect">Auxiliar de Clínica</button>
 </div>
+<a href="../" title=""><i class="fa fa-home text-right btn btn-info"></i></a>
 <hr>
 <div>
     <table id="datatable" class="table table-striped table-bordered" >
         <thead>
             <tr>
+                <th></th>
                 <th>dni</th>
                 <th>nombre</th>
                 <th>apellidos</th>
-                <th>telefono</th>
+                
                 <th>nomina</th>
                 <th>expediente</th>
                 <th>Of. Obras</th>
@@ -38,17 +41,43 @@
                 <th>Aux. Clínica</th>
                 <th>Conserje</th>
                 <!--<th></th>-->
+
             </tr>
         </thead>
         <tbody>
             <?php foreach ($convocados as $convocado): ?>
             <tr>
+                <td>
+
+                    <?php if (in_array($convocado['dni'],array_keys($dni_nomina))): ?>
+                         
+                        <?php if($dni_nomina[$convocado['dni']]=="Estructural"){echo "E";}
+                            elseif($dni_nomina[$convocado['dni']]=="Coyuntural"){echo "C";} ?>
+
+                    <?php elseif(in_array($convocado['dni'],array_keys($dni_suspensiones))): ?>
+                        <?php if($dni_suspensiones[$convocado['dni']]=="Estructural"){echo "E";}
+                            elseif($dni_suspensiones[$convocado['dni']]=="Coyuntural"){echo "C";} ?>
+                    <?php endif; ?>
+
+                </td>
                 <td><?= h($convocado->dni) ?></td>
                 <td><?= h($convocado->nombre) ?></td>
                 <td><?= h($convocado->apellidos) ?></td>
-                <td><?= h($convocado->telefono) ?></td>
-                <td><?= $convocado->has('nomina') ? $this->Html->link($convocado->nomina->id, ['controller' => 'Nominas', 'action' => 'view', $convocado->nomina->id]) : '' ?></td>
-                <td><?= $convocado->has('expediente') ? $this->Html->link($convocado->expediente->id, ['controller' => 'Expedientes', 'action' => 'view', $convocado->expediente->id]) : '' ?></td>
+                
+                <td>
+                <?php if (in_array($convocado['dni'],array_keys($dni_nomina))): ?>
+                      <span><i class='fa fa-check-square-o verde'></i></span>
+                <?php elseif(in_array($convocado['dni'],array_keys($dni_suspensiones))): ?>
+                      <span><i class='fa fa-check-square-o amarillo'></i> </span>            
+                <?php endif; ?>
+                </td>
+                <td> 
+                <?php if (isset($lista_expedientes[$convocado['dni']])): ?>
+                        <a href="http://edis.lishowebproject.a2hosted.com/expedientes/view/<?= $lista_expedientes[$convocado['dni']]['id'];?>" title="" target="_blank"><?= $lista_expedientes[$convocado['dni']]['numedis']; ?></a>
+                           
+                <?php endif; ?>
+                    
+                </td>
                 <td>
                 <?php foreach ($convocado->candidaturas as $c): ?>
                     

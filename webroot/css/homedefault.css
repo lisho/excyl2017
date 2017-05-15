@@ -310,3 +310,14 @@ table tr th {
     text-align: left;
     border-bottom: 2px solid #1798A5;
 }
+.verde {
+    color: #098A05;
+}
+
+.amarillo {
+    color: #FCD513;
+}
+
+.rojo {
+    color: #EF1111;
+}

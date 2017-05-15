@@ -7,6 +7,9 @@ $(document).ready(function() {
 		var puesto;
 
 		switch (id){
+			case "btntodos":
+				puesto = "";
+				break;
 			case "btn1":
 				puesto = "oficialobras";
 				break;
