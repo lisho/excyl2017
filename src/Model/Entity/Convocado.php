@@ -10,6 +10,7 @@ use Cake\ORM\Entity;
  * @property string $dni
  * @property string $nombre
  * @property string $apellidos
+ * @property string $telefono
  * @property int $nomina_id
  * @property int $expediente_id
  *

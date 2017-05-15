@@ -115,4 +115,5 @@ class CandidaturasController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
 }

@@ -19,7 +19,10 @@ class ConvocadosControllerTest extends IntegrationTestCase
         'app.convocados',
         'app.nominas',
         'app.expedientes',
+        'app.participantes',
+        'app.relations',
         'app.candidaturas',
+        'app.puestos',
         'app.valoracions'
     ];
 

@@ -77,6 +77,9 @@ class ConvocadosTable extends Table
             ->requirePresence('apellidos', 'create')
             ->notEmpty('apellidos');
 
+        $validator
+            ->allowEmpty('telefono');
+
         return $validator;
     }
 

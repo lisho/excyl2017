@@ -27,7 +27,10 @@ class ConvocadosTableTest extends TestCase
         'app.convocados',
         'app.nominas',
         'app.expedientes',
+        'app.participantes',
+        'app.relations',
         'app.candidaturas',
+        'app.puestos',
         'app.valoracions'
     ];
 

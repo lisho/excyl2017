@@ -22,11 +22,12 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                
                 <th scope="col"><?= $this->Paginator->sort('dni') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('nombre') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('apellidos') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('nomina_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('telefono') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('<i class="fa fa-money"></i>') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('expediente_id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -34,10 +35,11 @@
         <tbody>
             <?php foreach ($convocados as $convocado): ?>
             <tr>
-                <td><?= $this->Number->format($convocado->id) ?></td>
+                
                 <td><?= h($convocado->dni) ?></td>
                 <td><?= h($convocado->nombre) ?></td>
                 <td><?= h($convocado->apellidos) ?></td>
+                <td><?= h($convocado->telefono) ?></td>
                 <td><?= $convocado->has('nomina') ? $this->Html->link($convocado->nomina->id, ['controller' => 'Nominas', 'action' => 'view', $convocado->nomina->id]) : '' ?></td>
                 <td><?= $convocado->has('expediente') ? $this->Html->link($convocado->expediente->id, ['controller' => 'Expedientes', 'action' => 'view', $convocado->expediente->id]) : '' ?></td>
                 <td class="actions">

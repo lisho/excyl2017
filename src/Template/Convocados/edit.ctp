@@ -31,6 +31,7 @@
             echo $this->Form->control('dni');
             echo $this->Form->control('nombre');
             echo $this->Form->control('apellidos');
+            echo $this->Form->control('telefono');
             echo $this->Form->control('nomina_id', ['options' => $nominas, 'empty' => true]);
             echo $this->Form->control('expediente_id', ['options' => $expedientes, 'empty' => true]);
         ?>

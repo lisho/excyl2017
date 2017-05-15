@@ -115,4 +115,130 @@ class ConvocadosController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    /**
+     * Añadir nuevos convocados
+     *
+     * 
+     */
+
+    public function subirConvocados()
+    {           
+        $convocado = $this->Convocados->newEntity();
+        $cuenta_convocados = 0;
+        $cuenta_fallos = 0;
+        $líneas = [];
+        $keys = ['dni','apellidos','nombre','telefono','nomina_id','expediente_id'];
+
+        //verificamos si hay un post
+
+         if ($this->request->is('post') && $this->request->data['convocado']['tmp_name']!='') {
+            $puesto = $this->request->data['codigo'];
+            $csv = $this->request->data['convocado'];
+            $filename = $csv['tmp_name'];
+            $lineas = file($filename);
+            unset($lineas[0], $lineas[1], $lineas[2]);
+            foreach ($lineas as $linea_num => $linea){        
+                $data = [];
+                $datos = [];
+                $linea = str_replace(",", ";", $linea);
+
+                    $datos = explode(';',$linea); // separamnos los datos de cada fila
+                    $data = array_combine($keys,$datos); // los combinamos con las keys de la BD
+
+                    foreach ($data as $k => $d) { $data[$k] = trim($d);} //eliminamos los espacios del principio y del final.
+
+                    /* Comprobamos si ya exixte ese convocado para que no se repitan personas*/
+
+                    $comprueba_convocado = $this->Convocados->find('all', ['conditions' => [
+                            'dni' => $data['dni'],
+                        ]
+                    ]);
+                    $comprobado = $comprueba_convocado->toArray();
+//debug($comprobado[0]['id']);exit();
+                    if (empty($comprueba_convocado->toArray())) {
+                        
+                        $convocado = $this->Convocados->newEntity();
+                        $convocado = $this->Convocados->patchEntity($convocado, $data);
+                        $u=$this->Convocados->save($convocado);
+
+                        if ($u) {
+                            $cuenta_convocados++;
+
+                            $this->compruebaCandidatura($u['id'],$puesto);
+                              
+//debug($u);exit();
+                        } else {
+                            $this->Flash->error(__('The nomina could not be saved. Please, try again.'));
+
+                        }
+                    } else {
+                        $cuenta_fallos++;
+                        $this->compruebaCandidatura($comprobado[0]['id'],$puesto);
+                        $this->Flash->error('Error al cargar la nomina:'.$linea.'. Puede que ya exista en la base.');
+                    }  
+            }
+        }
+
+        $this->set(compact('convocado'));
+        //$this->set('_serialize', ['convocado']);
+    }
+
+    public function compruebaCandidatura($id = null, $puesto = null)
+    {
+        $this->loadModel('Candidaturas');
+        $candidatura = $this->Candidaturas  -> find() 
+                                            -> where(['convocado_id' => $id,
+                                                        'puesto_id' => $puesto])
+                                            -> first();
+        //debug($candidatura);exit();
+        if (empty($candidatura)) {
+             $this->creaCandidatura($id,$puesto);
+        }
+        return $candidatura;
+    }
+
+    public function creaCandidatura($id = null, $puesto = null)
+    {
+        $this->loadModel('Candidaturas');
+        $candidatura = $this->Candidaturas->newEntity();
+        $data = ['convocado_id' => $id, 'puesto_id' => $puesto, 'nota'=> NULL, 'observaciones' => NULL];
+        $candidatura = $this->Candidaturas->patchEntity($candidatura, $data);
+        
+        //debug($data);
+        //debug($candidatura);exit();
+
+        if ($this->Candidaturas->save($candidatura)) {
+            $this->Flash->success(__('se ha creado correctamente la candidatura'));
+        }else{
+            $this->Flash->error(__('The candidatura could not be saved. Please, try again.'));
+        }
+    }
+
+    public function listados()
+    {
+        /*
+        $this->paginate = [
+            'contain' => ['Candidaturas.Puestos'],
+            'url' => [
+                'scape' => true      
+            ]
+        ];
+
+       
+
+        $convocados = $this->paginate($this->Convocados);
+        */
+
+        $convocados = $this->Convocados->find('all')
+                        -> contain(['Candidaturas.Puestos'])
+                        //-> order(['apellidos'=> 'ASC'])
+                        //->toArray()
+                        ;
+               
+//debug(json_encode($convocados));exit();
+
+        $this->set(compact('convocados'));
+        $this->set('_serialize', ['convocados']);
+    }
 }

@@ -36,6 +36,10 @@
             <td><?= h($convocado->apellidos) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Telefono') ?></th>
+            <td><?= h($convocado->telefono) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Nomina') ?></th>
             <td><?= $convocado->has('nomina') ? $this->Html->link($convocado->nomina->id, ['controller' => 'Nominas', 'action' => 'view', $convocado->nomina->id]) : '' ?></td>
         </tr>

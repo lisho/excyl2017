@@ -50,7 +50,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
 
     <script src="https://code.jquery.com/jquery-2.x-git.min.js"></script>    
     
-    <?= $this->Html->script('mijs.js') ?>
+   
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
@@ -93,7 +93,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
 <div class="row">
     <div class="columns centrado large-12">
         <div class="columns centrado large-4 sin_decoracion">
-            <a href="" title="">
+            <a href="convocados/listados" title="" id="circulo1">
                 <div class="circulo">
                     <i class="support logo glyphicon glyphicon-list-alt"></i>
                 </div>  
@@ -102,7 +102,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
         </div>
 
         <div class="columns centrado large-4 sin_decoracion">
-            <a href="" title="">
+            <a href="#listados" title="" id="circulo2">
                 <div class="circulo">
                      <i class="support logo glyphicon glyphicon-folder-open"></i>
                 </div>  
@@ -111,7 +111,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
         </div>
 
         <div class="columns centrado large-4 sin_decoracion">
-            <a href="" title="">
+            <a href="#listados" title="" id="circulo3">
                 <div class="circulo">
                      <i class="support logo glyphicon glyphicon-check"></i>
                 </div>  
@@ -122,11 +122,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
 
 </div>
  
- <div class="row">
-    <div class="columns centrado large-12">
-        
-    </div>
-     
+ <div id="listados">
  </div>
 
     <?= $this->Html->script('datatables.net/js/jquery.dataTables.js') ?>
@@ -135,6 +131,6 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
     <?= $this->Html->script('datatables.net-buttons-bs/js/buttons.bootstrap.min.js') ?>
     <?= $this->Html->script('datatables.net-buttons/js/buttons.flash.min.js') ?>
     <?= $this->Html->script('datatables.net-buttons/js/buttons.html5.min.js') ?>
-
+    <?= $this->Html->script('mijs.js') ?>
 </body>
 </html>
